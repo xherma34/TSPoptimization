@@ -2,6 +2,9 @@ import random
 import sys
 import json
 import time
+import initialSolution as initSol
+import misc as m
+
 
 
 def read_instance_json(file_path):
@@ -13,17 +16,19 @@ def write_instance_json(solution, file_path):
     with open(file_path, 'w') as f:
         json.dump(solution, f)
 
-
 instance_path = sys.argv[1]
 output_path = sys.argv[2]
 
 instance = read_instance_json(instance_path)
-naive_solution = [i for i in range(len(instance['Matrix']))] # TODO - implement something better
-print(instance['GlobalBest'])
+# naive_solution = [i for i in range(len(instance['Matrix']))] # TODO - implement something better
 
+initial_solution = initSol.getInitialSolution("nearest", instance['Matrix'])
 
+print(initial_solution)
+
+print("cost: " + str(m.calculateCost(initial_solution, instance['Matrix'])))
 # Write the solution into .json out
-write_instance_json(naive_solution, output_path)
+write_instance_json(initial_solution, output_path)
 
 
 #######################################################################
