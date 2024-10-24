@@ -22,11 +22,27 @@ output_path = sys.argv[2]
 instance = read_instance_json(instance_path)
 # naive_solution = [i for i in range(len(instance['Matrix']))] # TODO - implement something better
 
+#TODO remove
+# initial_solution, cost = initSol.getInitialSolution("nearest", instance['Matrix'])
+
+# -------------------- PROGRAM LOGIC --------------------
+
+start_time = time.time()
+
 initial_solution = initSol.getInitialSolution("nearest", instance['Matrix'])
+# DEBUG
+print(f"initial_solution: {initial_solution} with cost {m.calculateCost(initial_solution, instance['Matrix'])}")
 
-print(initial_solution)
+# Set initial parameters for repair and destroy
+    # How many cities to destroy in one iteration
+    # What type of insertion to use
 
-print("cost: " + str(m.calculateCost(initial_solution, instance['Matrix'])))
+# MAIN LOOP
+
+
+end_time = time.time()
+
+# print(f"Time elapsed after generating solution: {end_time - start_time} while timeout is: {instance['Timeout']}")
 # Write the solution into .json out
 write_instance_json(initial_solution, output_path)
 

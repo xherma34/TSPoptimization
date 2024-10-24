@@ -2,56 +2,52 @@ import sys
 import random
 
 # Return minimal value and minimal index
-def getNearestNeigh(node : int, matrix):
+def getNearestNeigh(node : int, matrix : list[list[float]], unvisited : list[int]) -> tuple[float, int]:
 
-	# Check if node isnt out of bounds of matrix
-	if node < 0 or node >= len(matrix):
-		raise IndexError(f"Node index {node} is out of range for matrix size {len(matrix)}")
-
-	return min((val, idx) for idx, val in enumerate(matrix[node]) if idx != node)
+	min_id = 0
+	min_val = float('inf')
+	
+	for x in range(len(matrix[node])):
+		if matrix[node][x] < min_val and x in unvisited and x != node:
+			min_id = x
+			min_val = matrix[node][x]
+	
+	return min_val, min_id
 
 # Retruns random index from the matrix
-def getRandomCity(matrix):
+def getRandomCity(matrix : list[list[float]]) -> int:
 	return random.randint(0, len(matrix[0])-1)
 
-# Returns: node, shortest node to node, the path distance
-def getShortestPath(tour, matrix):
-	# variables
-	global_min = float('inf')
-	global_min_id = 0
-	node_id = 0
-
-	# TODO do this in the initialSolution.py so u dont need to loop through it every time -> saves time
-	updated_matrix = setMatrixValueOn(matrix, tour, float('inf'))
-
-	for x in tour:
-		min_val, min_id = getNearestNeigh(x, updated_matrix)
-
-		if(min_val < global_min):
-			global_min = min_val
-			global_min_id = min_id
-			node_id = x
-
-	return node_id, global_min_id, global_min
-
 # Calculates cost of a solutions and returns the cost value
-def calculateCost(solution, matrix) -> float:
-    cost = 0
-    for i in solution:
-        # Dont get out of bounds
-        if i+1 < len(solution):
-            cost += matrix[i][i+1]
-    return cost
+def calculateCost(solution : list[int], matrix : list[list[float]]) -> float:
+	cost = 0
 
-def insertToPath(tour, node_from, node_to):
-	index = tour.index(node_from)
-	tour.insert(index+1, node_to)
+	for i in solution:
+		# Dont get out of bounds
+		if i+1 < len(solution):
+			cost += matrix[i][i+1]
+	
+	cost += matrix[solution[0]][solution[len(solution)-1]]
+	return cost
+	
+# Returns index in tour after which to add the closest_node
+def findBestPosition(tour : list[int], closest_node : int, matrix : list[list[float]]) -> int:
+	pred = float('inf')
+	pred_val = float('inf')
+	
+	for x in tour:
+		val = matrix[x][closest_node]
+		if val < pred_val:
+			val = pred_val
+			pred = x
+	
+	return pred
 
-def setMatrixValueOn(matrix, indexes, value):
-	new_matrix = [row[:] for row in matrix]
-	for i in range(len(indexes) - 1):
-		for j in range(i + 1, len(indexes)):
-			new_matrix[indexes[i]][indexes[j]] = value
-			new_matrix[indexes[j]][indexes[i]] = value
-			
-	return new_matrix
+# Inserts node_new after node in list tour
+def insertToTour(tour : list[int], node : int, new_node : int):
+	index = tour.index(node)
+	tour.insert(index+1, new_node)
+
+
+
+# When you insert something in the list, update cost
