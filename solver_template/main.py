@@ -4,8 +4,7 @@ import json
 import time
 import initialSolution as initSol
 import misc as m
-
-
+import repairAndDestroy as rd
 
 def read_instance_json(file_path):
     with open(file_path) as f:
@@ -26,22 +25,14 @@ instance = read_instance_json(instance_path)
 # initial_solution, cost = initSol.getInitialSolution("nearest", instance['Matrix'])
 
 # -------------------- PROGRAM LOGIC --------------------
-
-start_time = time.time()
-
+# Get initial feasible solution
 initial_solution = initSol.getInitialSolution("nearest", instance['Matrix'])
+
+num_of_iterations = 200
+# rd.adaptiveRepairAndDestroy(initial_solution, instance['Matrix'], num_of_iterations)
+
 # DEBUG
-print(f"initial_solution: {initial_solution} with cost {m.calculateCost(initial_solution, instance['Matrix'])}")
-
-# Set initial parameters for repair and destroy
-    # How many cities to destroy in one iteration
-    # What type of insertion to use
-
-# MAIN LOOP
-
-
-end_time = time.time()
-
+print(f"Initial solution: {initial_solution} \n cost: {m.calculateCost(initial_solution, instance['Matrix'])}")
 # print(f"Time elapsed after generating solution: {end_time - start_time} while timeout is: {instance['Timeout']}")
 # Write the solution into .json out
 write_instance_json(initial_solution, output_path)
