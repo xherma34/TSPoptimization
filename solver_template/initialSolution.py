@@ -14,11 +14,10 @@ def getInitialSolution(opt : str, matrix : list[list[float]]) -> list:
 	else:
 		raise Exception("Error: undefined option in initialSolution.py:getInitialSolution()")
 
-def getBetterInitialSolution(opt: str, matrix: list[list[float]]):
+def getBetterInitialSolution(opt: str, evlauation: str, matrix: list[list[float]]):
 	#2-opt
 	solution = getInitialSolution(opt, matrix)
 	cost = m.calculateCost(solution, matrix)
-
 	improvement = True	
 	while improvement:
 		improvement=False
@@ -26,12 +25,25 @@ def getBetterInitialSolution(opt: str, matrix: list[list[float]]):
 			for j in range(i+1,len(solution)+1):#+1 beacuse of the way python slices indexes this ensures that last index will also be part of swaping
 				#take solution up to i, reverse segment from i up to j, take solution from j to the end
 				new_solution = solution[:i] + list(reversed(solution[i:j])) + solution[j:]
-				new_cost = m.calculateCost(new_solution, matrix)
-				
-				if new_cost < cost:
-					solution = new_solution
-					cost = new_cost
-					improvement = True
+				if evlauation ==  "trivial":
+					new_cost = m.calculateCost(new_solution, matrix)
+					
+					if new_cost < cost:
+						solution = new_solution
+						cost = new_cost
+						improvement = True
+						#leave after first improvement
+						break 
+				elif evlauation == "incremental" and j < len(solution):
+					#TODO try to add support for j+1 loop
+					cost_difference = m.calculateIncremental(solution, matrix, i, j)
+					
+					if cost_difference < 0:
+						solution = new_solution
+						cost += cost_difference
+						improvement = True
+						break 
+
 	return solution
 
 
