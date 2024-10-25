@@ -26,14 +26,17 @@ instance = read_instance_json(instance_path)
 
 # -------------------- PROGRAM LOGIC --------------------
 # Get initial feasible solution
-initial_solution = initSol.getInitialSolution("nearest", instance['Matrix'])
+
+initial_solution = initSol.getInitialSolution("random", instance['Matrix'])
+print(f"Initial solution: {initial_solution} \n cost: {m.calculateCost(initial_solution, instance['Matrix'])}")
+initial_solution = initSol.getBetterInitialSolution("random", instance['Matrix'])
 
 num_of_iterations = 200
 # rd.adaptiveRepairAndDestroy(initial_solution, instance['Matrix'], num_of_iterations)
 
 # DEBUG
-print(f"Initial solution: {initial_solution} \n cost: {m.calculateCost(initial_solution, instance['Matrix'])}")
-# print(f"Time elapsed after generating solution: {end_time - start_time} while timeout is: {instance['Timeout']}")
+print(f"Better initial solution: {initial_solution} \n cost: {m.calculateCost(initial_solution, instance['Matrix'])}")
+#print(f"Time elapsed after generating solution: {end_time - start_time} while timeout is: {instance['Timeout']}")
 # Write the solution into .json out
 write_instance_json(initial_solution, output_path)
 
