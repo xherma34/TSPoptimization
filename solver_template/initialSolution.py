@@ -1,9 +1,9 @@
 import sys
 import misc as m
 import random
+import time
 
 def getInitialSolution(opt : str, matrix : list[list[float]]) -> list:
-
 	optLow = opt.lower()
 	if optLow == "nearest":
 		return nearestInsertion(matrix)
@@ -44,10 +44,14 @@ def getRandomSolution(matrix: list[list[float]]) -> list[int]:
 
 def nearestInsertion(matrix : list[list[float]]) -> list[int]:
 	
+	start_time = time.time()
 	# list of unvisited citites
-	unvisited = list(range(len(matrix[0])-1))
+	unvisited = list(range(len(matrix[0])))
 	# Random initial city
 	initial_city = m.getRandomCity(matrix)
+
+	assert initial_city in unvisited, f"Error: the value {initial_city} is not in {unvisited}"
+
 	# Nearest neighbor for the initial city
 	nearest_val, nearest_id = m.getNearestNeigh(initial_city, matrix, unvisited)
 
@@ -63,12 +67,8 @@ def nearestInsertion(matrix : list[list[float]]) -> list[int]:
 	"""
 	unvisited.remove(initial_city)
 
-	# Debug
-	# print(f"Unvisited after insertion: {unvisited}")
-
 	# Initial tour
 	tour = [initial_city, nearest_id]
-	# TODO cost
 
 	while len(unvisited) != 0:
 		# Set bounds for finding minimum
@@ -88,6 +88,9 @@ def nearestInsertion(matrix : list[list[float]]) -> list[int]:
 		# DEBUG
 		# print(f"Creating path between: {node} and {min_id}")
 		# 
+		if time.time() - start_time >= 60:
+			print(f"Time out after one minute, number of inserted {len(tour)}, total number {len()}")
+			break
 		unvisited.remove(min_id)
 		m.insertToTour(tour, pred, min_id)
 
