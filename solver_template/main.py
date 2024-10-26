@@ -5,6 +5,7 @@ import time
 import initialSolution as initSol
 import misc as m
 import repairAndDestroy as rd
+import lns as l
 
 def read_instance_json(file_path):
     with open(file_path) as f:
@@ -29,10 +30,9 @@ instance = read_instance_json(instance_path)
 
 initial_solution = initSol.getInitialSolution("random", instance['Matrix'])
 print(f"Initial solution: {initial_solution} \n cost: {m.calculateCost(initial_solution, instance['Matrix'])}")
-initial_solution = initSol.getBetterInitialSolution("random", "trivial",instance['Matrix'])
-print(f"Better initial solution: {initial_solution} \n cost: {m.calculateCost(initial_solution, instance['Matrix'])}")
-initial_solution = initSol.getBetterInitialSolution("random", "incremental",instance['Matrix'])
-print(f"Better initial solution: {initial_solution} \n cost: {m.calculateCost(initial_solution, instance['Matrix'])}")
+#usage of LNS
+lns = l.lns(1000, instance['Matrix'], initial_solution)
+print(lns)
 
 num_of_iterations = 200
 # rd.adaptiveRepairAndDestroy(initial_solution, instance['Matrix'], num_of_iterations)
