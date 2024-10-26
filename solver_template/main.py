@@ -30,36 +30,31 @@ instance = read_instance_json(instance_path)
 
 initial_solution = initSol.getInitialSolution("random", instance['Matrix'])
 # print(f"Initial solution: {initial_solution} \n cost: {m.calculateCost(initial_solution, instance['Matrix'])}")
-initial_solution = initSol.getBetterInitialSolution("random", instance['Matrix'])
-# DEBUG
-# print(f"Better initial solution: {initial_solution} \n cost: {m.calculateCost(initial_solution, instance['Matrix'])}")
+
 
 sol = initial_solution[:]
 
 num_of_iterations = 800
 
-solution, solution_cost = rd.adaptiveRepairAndDestroy(initial_solution, instance['Matrix'], num_of_iterations)
+solution, cost = l.lns(num_of_iterations, initial_solution, instance['Matrix'])
 
-# print(f"##########################################################################################")
-# print(f"Initial solution: {sol} \n") 
-# print(f"Found solution: {solution} \n")
-# print(f"Actual solution: {instance['GlobalBest']}\n\n")
-# print(f"Initial cost: {m.calculateCost(sol, instance['Matrix'])}\n")
-# print(f"Found cost: {m.calculateCost(solution, instance['Matrix'])}\n")
-# print(f"Actual cost: {instance['GlobalBestVal']}\n")
-# print(f"##########################################################################################")
-# # print(f"Time elapsed after generating solution: {end_time - start_time} while timeout is: {instance['Timeout']}")
-# print(f"Initial solution: {initial_solution} \n cost: {m.calculateCost(initial_solution, instance['Matrix'])}")
+print(f"##########################################################################################")
+print(f"Initial solution: {sol} \n") 
+print(f"Found solution: {solution} \n")
+print(f"Actual solution: {instance['GlobalBest']}\n\n")
+print(f"Initial cost: {m.calculateCost(sol, instance['Matrix'])}\n")
+print(f"Found cost: {m.calculateCost(solution, instance['Matrix'])}\n")
+print(f"Actual cost: {instance['GlobalBestVal']}\n")
+print(f"##########################################################################################")
+# print(f"Time elapsed after generating solution: {end_time - start_time} while timeout is: {instance['Timeout']}")
+print(f"Initial solution: {initial_solution} \n cost: {m.calculateCost(initial_solution, instance['Matrix'])}")
 #usage of LNS
-lns = l.lns(1000, instance['Matrix'], initial_solution)
+
+# lns = l.lns(1000, initial_solution, instance['Matrix'])
 print(lns)
 
 num_of_iterations = 200
-# rd.adaptiveRepairAndDestroy(initial_solution, instance['Matrix'], num_of_iterations)
 
-# DEBUG
-
-#print(f"Time elapsed after generating solution: {end_time - start_time} while timeout is: {instance['Timeout']}")
 # Write the solution into .json out
 write_instance_json(initial_solution, output_path)
 

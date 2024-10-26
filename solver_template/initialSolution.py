@@ -23,7 +23,6 @@ def getRandomSolution(matrix: list[list[float]]) -> list[int]:
 #TODO -> refactor to take in list of elements and unvisited list and do it from that
 def nearestInsertion(matrix : list[list[float]]) -> list[int]:
 	
-	start_time = time.time()
 	# list of unvisited citites
 	unvisited = list(range(len(matrix[0])))
 	# Random initial city
@@ -53,15 +52,8 @@ def nearestInsertion(matrix : list[list[float]]) -> list[int]:
 			if val < min_val:
 				min_val = val
 				min_id = id
-				node = x
 		# Find the best position in current solution
 		pred = m.findBestPosition(tour, min_id, matrix)
-		# DEBUG
-		# print(f"Creating path between: {node} and {min_id}")
-		# 
-		if time.time() - start_time >= 60:
-			print(f"Time out after one minute, number of inserted {len(tour)}, total number {len()}")
-			break
 		unvisited.remove(min_id)
 		m.insertToTour(tour, pred, min_id)
 
