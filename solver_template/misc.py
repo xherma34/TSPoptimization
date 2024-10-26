@@ -22,16 +22,17 @@ def getRandomCity(matrix : list[list[float]]) -> int:
 # Calculates cost of a solutions and returns the cost value
 def calculateCost(solution : list[int], matrix : list[list[float]]) -> float:
 	cost = 0
+	for i in range(len(solution)-1):
+		cost += matrix[solution[i]][solution[i + 1]]
 
-	for city in solution:
-		# Dont get out of bounds
-		if city+1 < len(solution):
-			cost += matrix[city][city+1]
-	
 	# Add the cyclic path between first and last city
-	cost += matrix[solution[0]][solution[len(solution)-1]]
+	cost+=matrix[solution[-1]][solution[0]]
 	return cost
-	
+
+def calculateIncremental(solution: list[int], matrix: list[list[float]], i: int, j: int) -> float:
+	#TODO implement after destroy and repair
+	pass
+
 # Returns index in tour after which to add the closest_node
 def findBestPosition(tour : list[int], closest_node : int, matrix : list[list[float]]) -> int:
 	insert_after = 0
@@ -48,3 +49,42 @@ def findBestPosition(tour : list[int], closest_node : int, matrix : list[list[fl
 def insertToTour(tour : list[int], node : int, new_node : int):
 	index = tour.index(node)
 	tour.insert(index+1, new_node)
+
+
+
+# When you insert something in the list, update cost
+
+def repair2opt(opt: str, evlauation: str, matrix: list[list[float]], solution: list[int]):
+	#this will server as a repair method for LNS
+	# need to be tuned after the creation of destroy methods 
+	#2-opt
+	print(solution)
+	cost = calculateCost(solution, matrix)
+	improvement = True	
+	while improvement:
+		improvement=False
+		for i in range(len(solution)-1):
+			for j in range(i+1,len(solution)+1):#+1 beacuse of the way python slices indexes this ensures that last index will also be part of swaping
+				#take solution up to i, reverse segment from i up to j, take solution from j to the end
+				new_solution = solution[:i] + list(reversed(solution[i:j])) + solution[j:]
+				if evlauation ==  "trivial":
+					new_cost = calculateCost(new_solution, matrix)
+					
+					if new_cost < cost:
+						solution = new_solution
+						cost = new_cost
+						improvement = True
+						#leave after first improvement
+						break 
+				elif evlauation == "incremental" and j<len(solution):
+					#TODO try to add support for j+1 loop
+					#we evaluate the swap in current solution  
+					cost_difference = calculateIncremental(solution, matrix, i, j)
+
+					if cost_difference < 0:
+						solution = new_solution
+						cost += cost_difference
+						improvement = True
+						break 
+
+	return solution
