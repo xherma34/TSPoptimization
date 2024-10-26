@@ -1,0 +1,25 @@
+#!/bin/zsh
+
+# Number of times to run the Python script
+n=500
+
+# The Python script and its arguments
+python_script="main.py"
+input_file="../data/tsp_22.json"
+output_file="out.json"
+
+# Loop to run the script n times
+for i in {1..$n}
+do
+    echo "Running iteration $i..."
+    # Run the Python script with the specified arguments and capture any errors
+    python_output=$(python3 "$python_script" "$input_file" "$output_file" 2>&1)
+    
+    # Check if an error occurred
+    if [[ $? -ne 0 ]]; then
+        echo "Error occurred during iteration $i:"
+        echo "$python_output"
+    else
+        echo "Iteration $i completed successfully."
+    fi
+done

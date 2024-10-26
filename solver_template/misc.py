@@ -18,6 +18,7 @@ def getNearestNeigh(node : int, matrix : list[list[float]], unvisited : list[int
 def getRandomCity(matrix : list[list[float]]) -> int:
 	return random.randint(0, len(matrix[0])-1)
 
+#TODO recreate the cost function for destroy in a way that it doesnt calculate the whole thing again
 # Calculates cost of a solutions and returns the cost value
 def calculateCost(solution : list[int], matrix : list[list[float]]) -> float:
 	cost = 0
@@ -35,19 +36,6 @@ def calculateCost(solution : list[int], matrix : list[list[float]]) -> float:
 def findBestPosition(tour : list[int], closest_node : int, matrix : list[list[float]]) -> int:
 	insert_after = 0
 	best_cost = float('inf')
-	
-	# calculate the distance of: C-A-B A-C-B A-B-C
-	# Loop through the whole tour (tour: A-B), closest_node = C
-		# Calculate cost and save it
-		# Save the index of current i
-		# if cost < best_cost
-			# best_cost = cost
-			# best_pos = i
-
-	
-	# Input tour: A-B, closest_node: C
-	# calculate the distance of: A-C-B-A A-B-C-A, whichever has lowest cost, return that 
-	# Loop throgh the whole tour
 	for city in tour:
 		mod_tour = tour[:]
 		mod_tour.insert(city+1, closest_node)
@@ -60,7 +48,3 @@ def findBestPosition(tour : list[int], closest_node : int, matrix : list[list[fl
 def insertToTour(tour : list[int], node : int, new_node : int):
 	index = tour.index(node)
 	tour.insert(index+1, new_node)
-
-
-
-# When you insert something in the list, update cost

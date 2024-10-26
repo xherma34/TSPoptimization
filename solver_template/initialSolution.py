@@ -34,14 +34,13 @@ def getBetterInitialSolution(opt: str, matrix: list[list[float]]):
 					improvement = True
 	return solution
 
-
-
 def getRandomSolution(matrix: list[list[float]]) -> list[int]:
 	#list of cities
 	list_of_cities = [city for city in range(len(matrix))]
 	random.shuffle(list_of_cities)
 	return list_of_cities
 
+#TODO -> refactor to take in list of elements and unvisited list and do it from that
 def nearestInsertion(matrix : list[list[float]]) -> list[int]:
 	
 	start_time = time.time()
@@ -54,17 +53,9 @@ def nearestInsertion(matrix : list[list[float]]) -> list[int]:
 
 	# Nearest neighbor for the initial city
 	nearest_val, nearest_id = m.getNearestNeigh(initial_city, matrix, unvisited)
-
-	# Debug
-	# print(f"Initial {initial_city} nearest {nearest_id}")
 	
 	# Remove the initial tour from unvisited cities
 	unvisited.remove(nearest_id)
-	#TODO sometimes this throws error dont know why
-	#error
-	"""
-	ValueError: list.remove(x): x not in list
-	"""
 	unvisited.remove(initial_city)
 
 	# Initial tour
