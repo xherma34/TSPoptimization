@@ -4,7 +4,6 @@ import json
 import time
 import initialSolution as initSol
 import misc as m
-import repairAndDestroy as rd
 import lns as l
 
 def read_instance_json(file_path):
@@ -22,9 +21,6 @@ output_path = sys.argv[2]
 instance = read_instance_json(instance_path)
 # naive_solution = [i for i in range(len(instance['Matrix']))] # TODO - implement something better
 
-#TODO remove
-# initial_solution, cost = initSol.getInitialSolution("nearest", instance['Matrix'])
-
 # -------------------- PROGRAM LOGIC --------------------
 # Get initial feasible solution
 
@@ -34,7 +30,7 @@ initial_solution = initSol.getInitialSolution("random", instance['Matrix'])
 
 sol = initial_solution[:]
 
-num_of_iterations = 800
+num_of_iterations = 5000
 
 solution, cost = l.lns(num_of_iterations, initial_solution, instance['Matrix'])
 
@@ -51,7 +47,7 @@ print(f"Initial solution: {initial_solution} \n cost: {m.calculateCost(initial_s
 #usage of LNS
 
 # lns = l.lns(1000, initial_solution, instance['Matrix'])
-print(lns)
+# print(lns)
 
 num_of_iterations = 200
 

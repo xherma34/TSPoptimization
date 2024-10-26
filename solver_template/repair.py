@@ -5,9 +5,9 @@ def repairMethod(partial_solution, removed_cities, opt, matrix):
 	low_opt = opt.lower()
 	if low_opt == "random":
 		return repairRandom(partial_solution, removed_cities, matrix)
-	elif low_opt == "bestposition":
-		# TODO -> implement
-		pass
+	# TODO -> implement
+	# elif low_opt == "bestposition":
+	# 	pass
 		# return nearestInsertionRefac(partial_solution, removed_cities, matrix)
 	elif low_opt == "bestrandom":
 		return repairBestAndRandom(partial_solution, removed_cities, matrix)
@@ -46,7 +46,7 @@ def repairBestAndRandom(partial_solution, deleted_cities, matrix):
 				temp_tour = tour[:i] + [city] + tour[i:]
 				
 				# Calculate the cost of the temporary tour
-				cost = m.getCost(temp_tour, matrix)
+				cost = m.calculateCost(temp_tour, matrix)
 				
 				if cost < best_cost:
 					best_cost = cost
@@ -55,4 +55,4 @@ def repairBestAndRandom(partial_solution, deleted_cities, matrix):
 		# Insert the city at the best position found
 		tour.insert(best_position, city)
 	
-	return tour
+	return tour, m.calculateCost(tour, matrix)

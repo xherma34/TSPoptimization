@@ -31,21 +31,26 @@ def lns(stoppage : int, initial_solution : list[int], matrix : list[list[float]]
 			# DESTROY -> bigger number of deleted cities
 			destroy_size, destroy_size_perc = d.increaseDestroySize(destroy_size, destroy_size_perc, tour_len)
 			# DESTROY_METHOD, REPAIR_METHOD -> something that will take me out of the local optima
+			destroy_method = "highestcost"
+			# TODO -> think about doing regret k-insertion 
+			repair_method = "bestrandom"
 			stag_cnt += 1
 
-        # Destroy
+		# Destroy
 		partial_solution, removed_cities = d.destroyMethod(best_s, destroy_size, destroy_method, matrix)
 		# Repair
-		repaired_tour, repaired_cost = r.repairMethod(partial_solution, removed_cities, repair_method)
+		repaired_tour, repaired_cost = r.repairMethod(partial_solution, removed_cities, repair_method, matrix)
 		
-        # TODO -> 2-opt
+		# TODO -> 2-opt
 
-        # Cost evaluation
+		# Cost evaluation
 		if repaired_cost < best_cost:
 			# Update
 			best_s = repaired_tour
 			best_cost = repaired_cost
 			stag_runs_cnt = 0
+			destroy_method = "random"
+			repair_method = "bestposition"
 		else:
 			stag_runs_cnt += 1
 		# else
