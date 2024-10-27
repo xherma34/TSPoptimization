@@ -11,9 +11,6 @@ def repairMethod(partial_solution, removed_cities, opt, matrix):
 		# return nearestInsertionRefac(partial_solution, removed_cities, matrix)
 	elif low_opt == "bestrandom":
 		return repairBestAndRandom(partial_solution, removed_cities, matrix)
-	elif low_opt == "2-opt":
-		# TODO add call
-		pass
 	else:
 		return repairRandom(partial_solution, removed_cities, matrix)
 

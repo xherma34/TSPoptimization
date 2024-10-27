@@ -48,8 +48,14 @@ print(f"Initial solution: {initial_solution} \n cost: {m.calculateCost(initial_s
 
 # lns = l.lns(1000, initial_solution, instance['Matrix'])
 # print(lns)
+#initial_solution = initSol.getInitialSolution("random", instance['Matrix'])
+#print(f"Initial solution: {initial_solution} \n cost: {m.calculateCost(initial_solution, instance['Matrix'])}")
+#usage of LNS
 
-num_of_iterations = 200
+#lns = l.lns(1000, instance['Matrix'], initial_solution)
+#print(lns)
+
+
 
 # Write the solution into .json out
 write_instance_json(initial_solution, output_path)

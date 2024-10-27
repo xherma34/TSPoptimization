@@ -41,13 +41,18 @@ def lns(stoppage : int, initial_solution : list[int], matrix : list[list[float]]
 		# Repair
 		repaired_tour, repaired_cost = r.repairMethod(partial_solution, removed_cities, repair_method, matrix)
 		
+
 		# TODO -> 2-opt
+		opt, opt_cost = m.get2opt(matrix, repaired_tour, 10)
+		#print(repaired_tour, opt)
+		#print(repaired_cost, opt_cost)
+
 
 		# Cost evaluation
-		if repaired_cost < best_cost:
+		if opt_cost < best_cost:
 			# Update
-			best_s = repaired_tour
-			best_cost = repaired_cost
+			best_s = opt
+			best_cost = opt_cost
 			stag_runs_cnt = 0
 			destroy_method = "random"
 			repair_method = "bestposition"

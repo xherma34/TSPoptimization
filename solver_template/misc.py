@@ -54,37 +54,38 @@ def insertToTour(tour : list[int], node : int, new_node : int):
 
 # When you insert something in the list, update cost
 
-def repair2opt(opt: str, evlauation: str, matrix: list[list[float]], solution: list[int]):
-	#this will server as a repair method for LNS
-	# need to be tuned after the creation of destroy methods 
-	#2-opt
-	print(solution)
+def get2opt(matrix: list[list[float]], solution: list[int], max_swaps: int):
 	cost = calculateCost(solution, matrix)
-	improvement = True	
-	while improvement:
+	swaps = 0
+	improvement = True
+	while improvement and swaps < max_swaps:
 		improvement=False
 		for i in range(len(solution)-1):
 			for j in range(i+1,len(solution)+1):#+1 beacuse of the way python slices indexes this ensures that last index will also be part of swaping
 				#take solution up to i, reverse segment from i up to j, take solution from j to the end
 				new_solution = solution[:i] + list(reversed(solution[i:j])) + solution[j:]
-				if evlauation ==  "trivial":
-					new_cost = calculateCost(new_solution, matrix)
+				new_cost = calculateCost(new_solution, matrix)
 					
-					if new_cost < cost:
-						solution = new_solution
-						cost = new_cost
-						improvement = True
-						#leave after first improvement
-						break 
-				elif evlauation == "incremental" and j<len(solution):
-					#TODO try to add support for j+1 loop
-					#we evaluate the swap in current solution  
-					cost_difference = calculateIncremental(solution, matrix, i, j)
+				if new_cost < cost:
+					solution = new_solution
+					cost = new_cost
+					improvement = True
+					swaps+=1
+					#leave after first improvement
+					break 
+			if improvement:
+				break
 
-					if cost_difference < 0:
-						solution = new_solution
-						cost += cost_difference
-						improvement = True
-						break 
+	return solution, cost
 
-	return solution
+def getFarthest(matrix : list[list[float]]):
+	max_dist = float('-inf')
+	pair = list()
+	for i in range(len(matrix)):
+		for j in range(i+1, len(matrix)):
+			if matrix[i][j]>max_dist:
+				pair = [i,j] #get the indexes of cities
+				max_dist = matrix[i][j]
+	
+	print(max_dist)
+	return pair
