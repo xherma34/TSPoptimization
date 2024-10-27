@@ -24,7 +24,7 @@ instance = read_instance_json(instance_path)
 # -------------------- PROGRAM LOGIC --------------------
 # Get initial feasible solution
 
-initial_solution = initSol.getInitialSolution("random", instance['Matrix'])
+initial_solution = initSol.getInitialSolution("farthest", instance['Matrix'])
 # print(f"Initial solution: {initial_solution} \n cost: {m.calculateCost(initial_solution, instance['Matrix'])}")
 
 
@@ -32,7 +32,7 @@ sol = initial_solution[:]
 
 num_of_iterations = 1000
 
-solution, cost = l.lns(num_of_iterations, initial_solution, instance['Matrix'])
+solution, cost = l.lns(num_of_iterations, initial_solution, instance['Matrix'],instance['Timeout'],80)
 
 print(f"##########################################################################################")
 print(f"Initial solution: {sol} \n") 
