@@ -18,7 +18,6 @@ def getNearestNeigh(node : int, matrix : list[list[float]], unvisited : list[int
 def getRandomCity(matrix : list[list[float]]) -> int:
 	return random.randint(0, len(matrix[0])-1)
 
-#TODO recreate the cost function for destroy in a way that it doesnt calculate the whole thing again
 # Calculates cost of a solutions and returns the cost value
 def calculateCost(solution : list[int], matrix : list[list[float]]) -> float:
 	cost = 0

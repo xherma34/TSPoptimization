@@ -7,8 +7,8 @@ def getInitialSolution(opt : str, matrix : list[list[float]]) -> list:
 	optLow = opt.lower()
 	if optLow == "nearest": #this is probably a better initial solution
 		return nearestInsertion(matrix)
-	# elif optLow == "farthest":
-	# 	return farthestInsertion(matrix)
+	elif optLow == "farthest":
+		return farthestInsertion(matrix)
 	elif optLow == "random": #trivial initial solution
 		return getRandomSolution(matrix)
 	else:
@@ -20,7 +20,7 @@ def getRandomSolution(matrix: list[list[float]]) -> list[int]:
 	random.shuffle(list_of_cities)
 	return list_of_cities
 
-#TODO -> refactor to take in list of elements and unvisited list and do it from that
+
 def nearestInsertion(matrix : list[list[float]]) -> list[int]:
 	
 	# list of unvisited citites

@@ -30,7 +30,7 @@ initial_solution = initSol.getInitialSolution("random", instance['Matrix'])
 
 sol = initial_solution[:]
 
-num_of_iterations = 5000
+num_of_iterations = 1000
 
 solution, cost = l.lns(num_of_iterations, initial_solution, instance['Matrix'])
 
@@ -43,7 +43,7 @@ print(f"Found cost: {m.calculateCost(solution, instance['Matrix'])}\n")
 print(f"Actual cost: {instance['GlobalBestVal']}\n")
 print(f"##########################################################################################")
 # print(f"Time elapsed after generating solution: {end_time - start_time} while timeout is: {instance['Timeout']}")
-print(f"Initial solution: {initial_solution} \n cost: {m.calculateCost(initial_solution, instance['Matrix'])}")
+# print(f"Initial solution: {initial_solution} \n cost: {m.calculateCost(initial_solution, instance['Matrix'])}")
 #usage of LNS
 
 # lns = l.lns(1000, initial_solution, instance['Matrix'])
