@@ -43,7 +43,7 @@ def lns(stoppage : int, initial_solution : list[int], matrix : list[list[float]]
 		
 
 		# TODO -> 2-opt
-		opt, opt_cost = m.get2opt(matrix, repaired_tour, 10)
+		opt, opt_cost = m.get2opt(matrix, repaired_tour, repaired_cost, 10)
 		#print(repaired_tour, opt)
 		#print(repaired_cost, opt_cost)
 

@@ -54,8 +54,7 @@ def insertToTour(tour : list[int], node : int, new_node : int):
 
 # When you insert something in the list, update cost
 
-def get2opt(matrix: list[list[float]], solution: list[int], max_swaps: int):
-	cost = calculateCost(solution, matrix)
+def get2opt(matrix: list[list[float]], solution: list[int], cost: int, max_swaps: int):
 	swaps = 0
 	improvement = True
 	while improvement and swaps < max_swaps:
