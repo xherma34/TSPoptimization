@@ -1,9 +1,10 @@
 import misc as m
 import repair as r
 import destroy as d
+import time
 
 # TODO -> FIX: somehow even when changing the destroy method to clusters
-def lns(stoppage : int, initial_solution : list[int], matrix : list[list[float]]) -> list[list[int],int]:
+def lns(stoppage : int, initial_solution : list[int], matrix : list[list[float]],timeout: int, optimization: int) -> list[list[int],int]:
 	# Setup counter for stagnation
 	stag_runs_cnt = 0
 	# Setup a threshold for how many iterations without improvement are okay
@@ -22,9 +23,15 @@ def lns(stoppage : int, initial_solution : list[int], matrix : list[list[float]]
 	destroy_size_perc = 30
 	destroy_size  = int(len(initial_solution) * (destroy_size_perc / 100))
 	stag_cnt = 0
-
+	#TODO maybe the timer should be in main?? idk
+	start_time = time.time()
 	# Main loop
 	for i in range(stoppage):
+		elapsed = time.time()-start_time
+		#if time is out
+		if elapsed > timeout:
+			print("Time limit is up")
+			break
 		# if stagnation
 		if stag_runs_cnt > threshold:
 			# If stagnation happens, change the destroy and repair methods to be more aggresive
@@ -42,10 +49,14 @@ def lns(stoppage : int, initial_solution : list[int], matrix : list[list[float]]
 		repaired_tour, repaired_cost = r.repairMethod(partial_solution, removed_cities, repair_method, matrix)
 		
 
-		# TODO -> 2-opt
-		opt, opt_cost = m.get2opt(matrix, repaired_tour, repaired_cost, 10)
-		#print(repaired_tour, opt)
+		opt, opt_cost,i,j = m.get2opt(matrix, repaired_tour, repaired_cost, optimization)
+		#print(repaired_tour, opt,i,j)
 		#print(repaired_cost, opt_cost)
+		if opt_cost<0:
+			print("DIZASTER")
+			print(repaired_tour, opt,i,j)
+			print(repaired_cost, opt_cost)
+			break
 
 
 		# Cost evaluation

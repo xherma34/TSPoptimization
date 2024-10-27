@@ -7,8 +7,8 @@ def getInitialSolution(opt : str, matrix : list[list[float]]) -> list:
 	optLow = opt.lower()
 	if optLow == "nearest": #this is probably a better initial solution
 		return nearestInsertion(matrix)
-	# elif optLow == "farthest":
-	# 	return farthestInsertion(matrix)
+	elif optLow == "farthest":
+		return farthestInsertion(matrix)
 	elif optLow == "random": #trivial initial solution
 		return getRandomSolution(matrix)
 	else:
@@ -62,14 +62,21 @@ def nearestInsertion(matrix : list[list[float]]) -> list[int]:
 
 def farthestInsertion(matrix : list[list[float]]) -> list[int]:
 	# get the cities with biggest distance 
-	tour = m.getFarthest(matrix)
-	print(tour) 
-	print(len(tour), len(matrix))
-	while len(tour) != len(matrix):
-		max_dist =  float('-inf')
-		for x in range(len(matrix)):
-			if x not in tour:
-				min_dist = max(matrix[x][i] for i in tour)
-				if min_dist > max_dist:
-					pass
-		break
+	tour = m.getFarthestDuo(matrix)
+	#until the tour contains all nodes from matrix
+	while len(tour) != len(matrix): 
+		max_distane = float('-inf')
+		to_add = None
+		for i in range(len(matrix)):
+			if i not in tour:
+				#get the distance of a city
+				distance =  m.getFarthestCityDistance(matrix, tour, i)
+				if distance > max_distane:
+					max_distane = distance
+					#get the city with the biggest distance
+					to_add = i
+		#find the position with smallest increase
+		position = m.getPositionFar(matrix, tour, to_add)
+		tour.insert(position, to_add)
+	print(len(tour), print(matrix))
+	return tour
