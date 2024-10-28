@@ -24,7 +24,9 @@ instance = read_instance_json(instance_path)
 # -------------------- PROGRAM LOGIC --------------------
 # Get initial feasible solution
 
-initial_solution = initSol.getInitialSolution("farthest", instance['Matrix'])
+start_time = time.time()
+
+initial_solution = initSol.getInitialSolution("random", instance['Matrix'])
 # print(f"Initial solution: {initial_solution} \n cost: {m.calculateCost(initial_solution, instance['Matrix'])}")
 
 
@@ -32,17 +34,23 @@ sol = initial_solution[:]
 
 num_of_iterations = 1000
 
-solution, cost = l.lns(num_of_iterations, initial_solution, instance['Matrix'],instance['Timeout'],80)
+# l.test(instance['GlobalBest'], instance['Matrix'], instance['GlobalBestVal'])
+# print(f"actual solution: {instance['GlobalBest']} \nwith cost {instance['GlobalBestVal']}")
+solution, cost = l.lns(num_of_iterations, initial_solution, instance['Matrix'],instance['Timeout'],80,start_time)
+
+# func_cost = m.calculateCost(solution, instance['Matrix']) 
+# if cost != func_cost:
+#     print(f"The cost returned{cost} and actual cost{func_cost} are different:")
 
 print(f"##########################################################################################")
-print(f"Initial solution: {sol} \n") 
-print(f"Found solution: {solution} \n")
-print(f"Actual solution: {instance['GlobalBest']}\n\n")
+# print(f"Initial solution: {sol} \n") 
+# print(f"Found solution: {solution} \n")
+# print(f"Actual solution: {instance['GlobalBest']}\n\n")
 print(f"Initial cost: {m.calculateCost(sol, instance['Matrix'])}\n")
 print(f"Found cost: {m.calculateCost(solution, instance['Matrix'])}\n")
 print(f"Actual cost: {instance['GlobalBestVal']}\n")
 print(f"##########################################################################################")
-# print(f"Time elapsed after generating solution: {end_time - start_time} while timeout is: {instance['Timeout']}")
+print(f"Elapsed time: {time.time()-start_time} while timeout is: {instance['Timeout'], }")
 # print(f"Initial solution: {initial_solution} \n cost: {m.calculateCost(initial_solution, instance['Matrix'])}")
 #usage of LNS
 

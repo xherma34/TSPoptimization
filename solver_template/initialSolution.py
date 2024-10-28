@@ -78,5 +78,5 @@ def farthestInsertion(matrix : list[list[float]]) -> list[int]:
 		#find the position with smallest increase
 		position = m.getPositionFar(matrix, tour, to_add)
 		tour.insert(position, to_add)
-	print(len(tour), print(matrix))
+	# print(len(tour), print(matrix))
 	return tour

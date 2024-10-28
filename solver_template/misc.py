@@ -98,7 +98,6 @@ def calculateIncrementalFor2opt(solution: list[int], matrix: list[list[float]], 
 	return cost_after_swap - cost_before_swap
 
 
-
 def get2opt(matrix: list[list[float]], solution: list[int], cost: int, max_swaps: int):
 	swaps = 0
 	improvement = True
@@ -127,3 +126,12 @@ def get2opt(matrix: list[list[float]], solution: list[int], cost: int, max_swaps
 	#i, j only for debugging
 	#remove these later
 	return solution, cost, i,j
+
+def getCostOfSequence(prev, current, next, matrix):
+	cost_decrease = 0
+	cost_decrease += matrix[prev][current]
+	cost_decrease += matrix[current][next]
+	return cost_decrease
+
+def getCostOfNeighbours(prev, next, matrix):
+	return matrix[prev][next]

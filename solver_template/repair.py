@@ -1,46 +1,56 @@
 import random
 import misc as m
 
-def repairMethod(partial_solution, removed_cities, opt, matrix):
+def repairMethod(cost, partial_solution, removed_cities, opt, matrix):
 	low_opt = opt.lower()
 	if low_opt == "random":
-		return repairRandom(partial_solution, removed_cities, matrix)
+		return repairRandom(cost, partial_solution, removed_cities, matrix)
 	# TODO -> implement
 	# elif low_opt == "bestposition":
 	# 	pass
 		# return nearestInsertionRefac(partial_solution, removed_cities, matrix)
 	elif low_opt == "bestrandom":
-		return repairBestAndRandom(partial_solution, removed_cities, matrix)
+		return repairBestAndRandom(cost, partial_solution, removed_cities, matrix)
 	else:
-		return repairRandom(partial_solution, removed_cities, matrix)
+		return repairRandom(cost, partial_solution, removed_cities, matrix)
 
-def repairRandom(partial_solution, removed_cities, matrix):
+def repairRandom(cost, partial_solution, removed_cities, matrix):
 	# Create copy
 	repaired_solution = partial_solution[:]
 	# Get list of random indeces from partial solution (number of indeces = len(removed_cities))
-	predecesors = random.sample(partial_solution, len(removed_cities))
-	for removed, i in zip(removed_cities, predecesors):
-		m.insertToTour(repaired_solution, i, removed)
-	# Add the removed_cities respectively after the indexes
+	append_after = random.sample(partial_solution, len(removed_cities))
+
+	# cost_update = 0
+	for city, after in zip(removed_cities, append_after):
+		i = repaired_solution.index(after)
+
+		# # Incremental cost update
+		# prev = after
+		# next = repaired_solution[(i+1)%len(repaired_solution)]
+
+		# cost_update -= matrix[prev][next]
+		# cost_update += matrix[prev][city] + matrix[city][next]
+
+		repaired_solution.insert(i+1, city)
 	
 	return repaired_solution, m.calculateCost(repaired_solution, matrix)
 
-def repairBestAndRandom(partial_solution, deleted_cities, matrix):
+def repairBestAndRandom(cost, partial_solution, removed_cities, matrix):
 	# Create a copy of partial_solution to work on
-	tour = partial_solution[:]
+	repaired_solution = partial_solution[:]
 	
 	# For each city in deleted_cities, find the best position to insert
-	for city in deleted_cities:
+	for city in removed_cities:
 		if random.random() < 0.2:  # With 20% chance, insert randomly
-			best_position = random.randint(0, len(tour))
+			best_position = random.randint(0, len(repaired_solution))
 		else:
 			best_cost = float('inf')
 			best_position = None
 
 			# Loop over each possible position in the tour to insert the city
-			for i in range(len(tour) + 1):
+			for i in range(len(repaired_solution) + 1):
 				# Create a temporary tour with the city inserted at position i
-				temp_tour = tour[:i] + [city] + tour[i:]
+				temp_tour = repaired_solution[:i] + [city] + repaired_solution[i:]
 				
 				# Calculate the cost of the temporary tour
 				cost = m.calculateCost(temp_tour, matrix)
@@ -50,6 +60,7 @@ def repairBestAndRandom(partial_solution, deleted_cities, matrix):
 					best_position = i
 		
 		# Insert the city at the best position found
-		tour.insert(best_position, city)
+		repaired_solution.insert(best_position, city)
 	
-	return tour, m.calculateCost(tour, matrix)
+	return repaired_solution, m.calculateCost(repaired_solution, matrix)
+
