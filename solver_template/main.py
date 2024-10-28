@@ -31,19 +31,19 @@ initial_solution = initSol.getInitialSolution("random", instance['Matrix'])
 
 
 sol = initial_solution[:]
-
+print(f"Initial solution: {sol} \n") 
 num_of_iterations = 1000
 
 # l.test(instance['GlobalBest'], instance['Matrix'], instance['GlobalBestVal'])
 # print(f"actual solution: {instance['GlobalBest']} \nwith cost {instance['GlobalBestVal']}")
-solution, cost = l.lns(num_of_iterations, initial_solution, instance['Matrix'],instance['Timeout'],80,start_time)
+solution, cost = l.lns(num_of_iterations, initial_solution, instance['Matrix'],instance['Timeout'],120,start_time)
 
 # func_cost = m.calculateCost(solution, instance['Matrix']) 
 # if cost != func_cost:
 #     print(f"The cost returned{cost} and actual cost{func_cost} are different:")
 
 print(f"##########################################################################################")
-# print(f"Initial solution: {sol} \n") 
+print(f"Initial solution: {sol} \n") 
 # print(f"Found solution: {solution} \n")
 # print(f"Actual solution: {instance['GlobalBest']}\n\n")
 print(f"Initial cost: {m.calculateCost(sol, instance['Matrix'])}\n")

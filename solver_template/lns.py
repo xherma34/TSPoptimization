@@ -75,15 +75,11 @@ def lns(stoppage : int, initial_solution : list[int], matrix : list[list[float]]
 		partial_solution, removed_cities = d.destroyMethod(best_s, destroy_size, destroy_method, matrix, best_cost)
 		# Repair
 		repaired_tour, repaired_cost = r.repairMethod(best_cost, partial_solution, removed_cities, repair_method, matrix)
+		opt, opt_cost = m.get2opt(matrix, repaired_tour, repaired_cost, optimization)
 
-		opt, opt_cost,i,j = m.get2opt(matrix, repaired_tour, repaired_cost, optimization)
 		#print(repaired_tour, opt,i,j)
 		#print(repaired_cost, opt_cost)
-		if opt_cost<0:
-			print("DIZASTER")
-			print(repaired_tour, opt,i,j)
-			print(repaired_cost, opt_cost)
-			break
+
 
 		# Cost evaluation
 		if opt_cost < best_cost:

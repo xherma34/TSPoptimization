@@ -85,8 +85,6 @@ def getPositionFar(matrix : list[list[float]], tour: list[int], to_add: int):
 	return position
 
 
-
-# When you insert something in the list, update cost
 def calculateIncrementalFor2opt(solution: list[int], matrix: list[list[float]], i: int, j: int) -> float:
 	#calculate only the part of road that changed
 	#cost of original route
@@ -123,9 +121,19 @@ def get2opt(matrix: list[list[float]], solution: list[int], cost: int, max_swaps
 			#first improvement
 			if improvement:
 				break
-	#i, j only for debugging
-	#remove these later
-	return solution, cost, i,j
+
+	return solution, cost
+
+def getIncrementalRandom(solution: list[int], matrix: list[list[float]], best_position: int, city: int) -> float:
+	#to get the change of cost after insert i need indexes before and current
+	before = solution[best_position-1] if best_position>0 else solution[-1]
+	after = solution[best_position] if best_position<len(solution) else solution[0]
+	#we need to calculate the cost which is created by inserting between before and after
+	cost = matrix[before][city] + matrix[city][after]
+	#also have to subtract the original cost
+	increase_cost = cost - matrix[before][after]
+	
+	return increase_cost
 
 def getCostOfSequence(prev, current, next, matrix):
 	cost_decrease = 0
