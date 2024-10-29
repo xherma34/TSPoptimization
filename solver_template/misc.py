@@ -1,5 +1,6 @@
 import sys
 import random
+import time
 
 # Return minimal value and minimal index
 def getNearestNeigh(node : int, matrix : list[list[float]], unvisited : list[int]) -> tuple[float, int]:
@@ -96,7 +97,7 @@ def calculateIncrementalFor2opt(solution: list[int], matrix: list[list[float]], 
 	return cost_after_swap - cost_before_swap
 
 
-def get2opt(matrix: list[list[float]], solution: list[int], cost: int, max_swaps: int):
+def get2opt(matrix: list[list[float]], solution: list[int], cost: int, max_swaps: int, start_time, timeout):
 	swaps = 0
 	improvement = True
 	while improvement and swaps < max_swaps:
@@ -121,7 +122,8 @@ def get2opt(matrix: list[list[float]], solution: list[int], cost: int, max_swaps
 			#first improvement
 			if improvement:
 				break
-
+		if time.time()-start_time >= timeout:
+			return solution, cost
 	return solution, cost
 
 def getIncrementalRandom(solution: list[int], matrix: list[list[float]], best_position: int, city: int) -> float:

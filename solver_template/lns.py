@@ -43,9 +43,7 @@ def lns(stoppage : int, initial_solution : list[int], matrix : list[list[float]]
 	# Main loop
 	for i in range(stoppage):
 		elapsed = time.time()-start_time
-		#if time is out
-		if elapsed > timeout:
-			break
+		
 		# if stagnation
 		if stag_runs_cnt > threshold:
 			# If stagnation happens, change the destroy and repair methods to be more aggresive
@@ -57,10 +55,19 @@ def lns(stoppage : int, initial_solution : list[int], matrix : list[list[float]]
 		
 		# Destroy
 		partial_solution, removed_cities = d.destroyMethod(best_s, destroy_size, destroy_method, matrix, best_cost)
+		#if time is out
+		if time.time() - start_time > timeout:
+			break
 		# Repair
 		repaired_tour, repaired_cost = r.repairMethod(best_cost, partial_solution, removed_cities, repair_method, matrix)
-		opt, opt_cost = m.get2opt(matrix, repaired_tour, repaired_cost, optimization)
+		#if time is out
+		if time.time() - start_time > timeout:
+			break
+		opt, opt_cost = m.get2opt(matrix, repaired_tour, repaired_cost, optimization, start_time, timeout)
 
+		#if time is out
+		if time.time() - start_time > timeout:
+			break
 		# Cost evaluation
 		if opt_cost < best_cost:
 			# Update
@@ -76,7 +83,9 @@ def lns(stoppage : int, initial_solution : list[int], matrix : list[list[float]]
 				best_cost = opt_cost
 			stag_runs_cnt += 1
 		
-		# TODO -> if stagnation 1/2 of iterations, just return
+		# Termination criteria if stagnation happens
+		if stag_runs_cnt >= 0.55*stoppage:
+			break
 
 		temperature *= cooling_rate
 
