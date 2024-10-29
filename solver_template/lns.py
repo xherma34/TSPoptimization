@@ -16,7 +16,6 @@ def lns(stoppage : int, initial_solution : list[int], matrix : list[list[float]]
 	# Setup counter for stagnation
 	stag_runs_cnt = 0
 	# Setup a threshold for how many iterations without improvement are okay
-	# TODO -> Uncomment
 	threshold = 0.18 * stoppage
 	# Calculate current cost of the tour
 	best_cost = m.calculateCost(initial_solution, matrix)

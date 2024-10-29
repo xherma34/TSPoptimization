@@ -16,13 +16,14 @@ def getInitialSolution(opt : str, matrix : list[list[float]]) -> list:
 
 
 def getRandomSolution(matrix: list[list[float]]) -> list[int]:
+	# Get list of all cities
 	list_of_cities = [city for city in range(len(matrix))]
+	# Shuffle it to make a random solution
 	random.shuffle(list_of_cities)
 	return list_of_cities
 
 
 def nearestInsertion(matrix : list[list[float]]) -> list[int]:
-	
 	# list of unvisited citites
 	unvisited = list(range(len(matrix[0])))
 	# Random initial city
@@ -58,7 +59,6 @@ def nearestInsertion(matrix : list[list[float]]) -> list[int]:
 		m.insertToTour(tour, pred, min_id)
 
 	return tour
-
 
 def farthestInsertion(matrix : list[list[float]]) -> list[int]:
 	# get the cities with biggest distance

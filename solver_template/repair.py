@@ -26,7 +26,6 @@ def repairRandom(cost, partial_solution, removed_cities, matrix):
 
 def repairBestAndRandom(cost, partial_solution, removed_cities, matrix):
 	# Create a copy of partial_solution to work on
-	
 	repaired_solution = partial_solution[:]
 	curr_cost = m.calculateCost(repaired_solution, matrix)
 	# For each city in deleted_cities, find the best position to insert
