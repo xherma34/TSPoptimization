@@ -16,6 +16,7 @@ def lns(stoppage : int, initial_solution : list[int], matrix : list[list[float]]
 	# Setup counter for stagnation
 	stag_runs_cnt = 0
 	# Setup a threshold for how many iterations without improvement are okay
+
 	threshold = 0.18 * stoppage
 	# Calculate current cost of the tour
 	best_cost = m.calculateCost(initial_solution, matrix)
@@ -25,7 +26,7 @@ def lns(stoppage : int, initial_solution : list[int], matrix : list[list[float]]
 	tour_len = len(initial_solution)
 	
 	# Parameters for destroy and repair
-	destroy_method = "random"
+	destroy_method = "highestcost"
 	repair_method = "random"
 	# Calculate as  percentage of the len(tour) casted into integer
 	destroy_size_perc = 30
@@ -47,7 +48,7 @@ def lns(stoppage : int, initial_solution : list[int], matrix : list[list[float]]
 			# If stagnation happens, change the destroy and repair methods to be more aggresive
 			# DESTROY -> bigger number of deleted cities
 			destroy_size, destroy_size_perc = d.increaseDestroySize(destroy_size, destroy_size_perc, tour_len)
-			destroy_method = "highestcost"
+			destroy_method = "random"
 			repair_method = "bestrandom"
 			stag_cnt += 1
 		
