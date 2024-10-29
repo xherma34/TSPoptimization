@@ -56,6 +56,7 @@ def lns(stoppage : int, initial_solution : list[int], matrix : list[list[float]]
 		#if time is out
 		if elapsed > timeout:
 			print("Time limit is up")
+			print(f"Iterations: {i}")
 			break
 		# if stagnation
 		if stag_runs_cnt > threshold:
