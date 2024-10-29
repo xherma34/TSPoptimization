@@ -78,8 +78,6 @@ def lns(stoppage : int, initial_solution : list[int], matrix : list[list[float]]
 		repaired_tour, repaired_cost = r.repairMethod(best_cost, partial_solution, removed_cities, repair_method, matrix)
 		opt, opt_cost = m.get2opt(matrix, repaired_tour, repaired_cost, optimization)
 
-		#print(repaired_tour, opt,i,j)
-		#print(repaired_cost, opt_cost)
 
 
 		# Cost evaluation

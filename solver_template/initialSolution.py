@@ -61,10 +61,10 @@ def nearestInsertion(matrix : list[list[float]]) -> list[int]:
 
 
 def farthestInsertion(matrix : list[list[float]]) -> list[int]:
-	# get the cities with biggest distance 
+	# get the cities with biggest distance
 	tour = m.getFarthestDuo(matrix)
-	#until the tour contains all nodes from matrix
-	while len(tour) != len(matrix): 
+	#until the tour recieves all nodes from matrix
+	while len(tour) != len(matrix):
 		max_distane = float('-inf')
 		to_add = None
 		for i in range(len(matrix)):
@@ -78,5 +78,5 @@ def farthestInsertion(matrix : list[list[float]]) -> list[int]:
 		#find the position with smallest increase
 		position = m.getPositionFar(matrix, tour, to_add)
 		tour.insert(position, to_add)
-	# print(len(tour), print(matrix))
+
 	return tour
