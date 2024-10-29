@@ -62,7 +62,7 @@ def destroyHighestRandom(tour, destroy_size, matrix, cost):
 	# Select the top 'num_of_cities' worst paths to remove
 	cities_to_remove = [city for _, city in path_costs[:destroy_size]]
 	
-	# Add some randomness: randomly select some additional cities to remove
+	# randomly select some additional cities to remove
 	while len(cities_to_remove) < destroy_size:
 		random_city = random.choice(tour)
 		if random_city not in cities_to_remove:
@@ -72,12 +72,10 @@ def destroyHighestRandom(tour, destroy_size, matrix, cost):
 	for city in cities_to_remove:
 		deleted_cities.append(city)
 		partial_solution.remove(city)
-	print(f"LENGTH {len(partial_solution)}")
 	new_cost = getCostUpdate(tour, cities_to_remove, cost, matrix)
 
 	return partial_solution, deleted_cities, new_cost
 
-# TODO -> implement adaptive cost update
 def destroyCluster(tour, num_of_cities, matrix):
 	# Create a copy of the tour to work on
 	partial_solution = tour[:]
@@ -102,23 +100,10 @@ def destroyCluster(tour, num_of_cities, matrix):
 	return partial_solution, deleted_cities
 
 def destroyRandom(tour : list[int], num_of_cities : int, matrix : list[list[float]], cost : int):
-	# print(f"Cost for tour before destroy: {m.calculateCost(tour, matrix)}")
 	# Randomly select cities to delete from the tour
 	removed_cities = random.sample(tour, num_of_cities)
-	# Sort removed cities by tour ordering
-	
 	# Create partial_tour by removing the selected cities from the original tour
 	partial_tour = [city for city in tour if city not in removed_cities]
-	
-	# removed_cities_sorted = sorted(removed_cities, key=lambda city: tour.index(city))
-	# cost_update = 0
-	## Incremental cost update
-	# for city in removed_cities_sorted:
-	# 	cost_update += getCostUpdate(tour, city, cost, matrix)
-
-	# 	partial_tour.remove(city)
-
-	# return partial_tour, removed_cities, cost_update
 	return partial_tour, removed_cities
 
 # Removes the num_of_cities with highest cost
@@ -140,7 +125,6 @@ def destroyHighestCost(tour : list[int], num_of_cities : int, matrix : list[list
 
 	return partial_tour, removed_cities
 
-# TODO -> Doesn't work for highestrandom and cluster
 def getCostUpdate(tour, city, cost, matrix):
 	cost_deviation = 0
 	# neighbors in the cyclic path

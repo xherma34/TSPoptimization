@@ -5,10 +5,6 @@ def repairMethod(cost, partial_solution, removed_cities, opt, matrix):
 	low_opt = opt.lower()
 	if low_opt == "random":
 		return repairRandom(cost, partial_solution, removed_cities, matrix)
-	# TODO -> implement
-	# elif low_opt == "bestposition":
-	# 	pass
-		# return nearestInsertionRefac(partial_solution, removed_cities, matrix)
 	elif low_opt == "bestrandom":
 		return repairBestAndRandom(cost, partial_solution, removed_cities, matrix)
 	else:
@@ -23,13 +19,6 @@ def repairRandom(cost, partial_solution, removed_cities, matrix):
 	# cost_update = 0
 	for city, after in zip(removed_cities, append_after):
 		i = repaired_solution.index(after)
-
-		# # Incremental cost update
-		# prev = after
-		# next = repaired_solution[(i+1)%len(repaired_solution)]
-
-		# cost_update -= matrix[prev][next]
-		# cost_update += matrix[prev][city] + matrix[city][next]
 
 		repaired_solution.insert(i+1, city)
 	
@@ -65,8 +54,6 @@ def repairBestAndRandom(cost, partial_solution, removed_cities, matrix):
 		
 		# Insert the city at the best position found
 		repaired_solution.insert(best_position, city)
-
-
 
 	return repaired_solution, curr_cost
 
